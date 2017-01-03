@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SimpleTwitterClient</string>
+    <string name="full_name">Full Name</string>
+    <string name="handle">Handle</string>
+    <string name="screen_name">Screen Name</string>
+    <string name="bio">Bio</string>
+    <string name="tweet">Tweet</string>
 </resources>

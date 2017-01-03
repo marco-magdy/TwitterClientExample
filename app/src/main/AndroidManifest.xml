@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.simpletwitterclient">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name=".commons.App"
         android:allowBackup="true"
@@ -17,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".FollowersListActivity" />
-        <activity android:name=".FollowerInfoActivity" />
+        <activity android:name=".FollowerInfoActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -26,8 +30,6 @@
 
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>

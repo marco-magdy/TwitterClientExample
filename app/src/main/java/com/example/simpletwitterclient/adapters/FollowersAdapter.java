@@ -83,14 +83,20 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.MyVi
             }
         });
         holder.tvFullName.setText(user.name);
-        holder.tvHandle.setText("@" + user.screenName);
+        String handle = "@" + user.screenName;
+        holder.tvHandle.setText(handle);
         holder.tvBio.setText(user.description);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, FollowerInfoActivity.class);
-                context.startActivity(i);
+                if (App.isOnline()) {
+                    Intent i = new Intent(context, FollowerInfoActivity.class);
+                    App.saveFollowerData(user);
+                    context.startActivity(i);
+                } else {
+                    App.toast("Network connection problems!");
+                }
             }
         });
     }

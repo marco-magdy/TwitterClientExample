@@ -99,19 +99,19 @@ public class App extends Application {
         return sessions;
     }
 
-    public static void saveFollowers(ArrayList<User> followers) {
+    public static void saveFollowersList(ArrayList<User> followers) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(followers);
         App.debug("Session json :" + json);
-        editor.putString("Followers", json);
+        editor.putString("FollowersList", json);
         editor.apply();
     }
 
-    public static ArrayList<User> getFollowers() {
+    public static ArrayList<User> getFollowersList() {
         ArrayList<User> followers = null;
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("Followers", "");
+        String json = sharedPreferences.getString("FollowersList", "");
         App.debug("Session json :" + json);
         Type type = new TypeToken<ArrayList<User>>() {
         }.getType();
@@ -119,9 +119,25 @@ public class App extends Application {
         return followers;
     }
 
+    public static void saveFollowerData(User user) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        App.debug("Follower json :" + json);
+        editor.putString("FollowerData", json);
+        editor.apply();
+    }
+
+    public static User getFollowerData() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("FollowerData", "");
+        App.debug("Follower json :" + json);
+        User user = gson.fromJson(json, User.class);
+        return user;
+    }
+
     private void setUpTheImageLoader() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(20)) //rounded corner bitmap
                 .cacheInMemory(false)
                 .cacheOnDisk(true)
                 .showImageOnLoading(R.drawable.grey_loading_image)

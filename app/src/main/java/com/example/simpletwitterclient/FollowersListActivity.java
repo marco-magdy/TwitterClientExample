@@ -149,26 +149,22 @@ public class FollowersListActivity extends AppCompatActivity {
                     App.toast("Network connection problem");
                     getFollowersListOffline();
                 }
-
-
             }
-
-
         });
     }
 
 
     private void saveOfflineUsers(List<User> users) {
-        List<User> mUsers = App.getFollowers();
+        List<User> mUsers = App.getFollowersList();
         if (mUsers == null) {
             mUsers = new ArrayList<>();
         }
         mUsers.addAll(users);
-        App.saveFollowers(new ArrayList<>(mUsers));
+        App.saveFollowersList(new ArrayList<>(mUsers));
     }
 
     private void clearOfflineUsers() {
-        App.saveFollowers(null);
+        App.saveFollowersList(null);
     }
 
     @Override
@@ -214,7 +210,7 @@ public class FollowersListActivity extends AppCompatActivity {
 
     private void getFollowersListOffline() {
 
-        ArrayList<User> userArrayList = App.getFollowers();
+        ArrayList<User> userArrayList = App.getFollowersList();
         App.debug("getFollowersListOffline : " + userArrayList);
         userList = new ArrayList<>(userArrayList);
         adapter = new FollowersAdapter(FollowersListActivity.this, userList);
