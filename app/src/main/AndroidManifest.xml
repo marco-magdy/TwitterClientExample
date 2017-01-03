@@ -16,12 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FollowersListActivity"/>
+        <activity android:name=".FollowersListActivity" />
+        <activity android:name=".FollowerInfoActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3a79f8ef17e0d814331d17d216d2aa4103c613a2" />
+
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 </manifest>

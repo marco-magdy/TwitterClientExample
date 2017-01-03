@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.example.simpletwitterclient.commons.App;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
-import com.twitter.sdk.android.core.models.User;
+
+import java.util.ArrayList;
 
 /**
  * Created by thema on 1/3/2017.
@@ -28,6 +29,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!App.isOnline()) {
+                    App.toast("Network connection problems!");
+                }
+            }
+        });
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
@@ -36,23 +45,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 App.debug("User Id:   " + session.getUserId());
                 App.debug("User Name: " + session.getUserName());
-
-                Twitter.getApiClient(session).getAccountService()
-                        .verifyCredentials(true, false).enqueue(new Callback<User>() {
-                    @Override
-                    public void success(Result<User> userResult) {
-                        User user = userResult.data;
-                        System.out.println(user.profileImageUrl + " " + user.email + "" + user.followersCount);
-                    }
-
-                    @Override
-                    public void failure(TwitterException exception) {
-
-                    }
-                });
                 App.twitterSession = session;
                 App.saveUserData(session);
+
+                saveAccountInMultiUserAccounts();
+
                 checkIfUserLoggedIn();
+
             }
 
             @Override
@@ -62,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -78,5 +78,38 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, FollowersListActivity.class));
             finish();
         }
+    }
+
+    /***
+     * Multiple User Accounts
+     */
+    private void saveAccountInMultiUserAccounts() {
+        //1. get all saved accounts
+        ArrayList<TwitterSession> accounts = App.getAccounts();
+        App.debug("Accounts : " + accounts);
+        if (accounts == null) {
+            accounts = new ArrayList<>();
+        }
+        //2.check if the user already saved in the shared preferences "Settings"
+        if (!userExists(App.twitterSession.getUserName(), accounts)) {
+            //add the new account
+            accounts.add(App.twitterSession);
+            //save accounts
+            App.saveAccounts(accounts);
+        } else {
+            App.toast("User Already saved!");
+        }
+    }
+
+    /*
+     *this method checks if the user already saved in the shared preferences
+     */
+    private boolean userExists(String userName, ArrayList<TwitterSession> accounts) {
+        for (TwitterSession account : accounts) {
+            if (account.getUserName().contains(userName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
