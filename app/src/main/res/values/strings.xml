@@ -5,4 +5,10 @@
     <string name="screen_name">Screen Name</string>
     <string name="bio">Bio</string>
     <string name="tweet">Tweet</string>
+    <string name="banner">banner</string>
+    <string name="connection_error">Network connection problems!</string>
+    <string name="user_already_saved">User Already saved!</string>
+    <string name="too_many_requests">You asked for too many requests, Please try again after 15 minutes</string>
+    <string name="selected">" Selected"</string>
+    <string name="log_out">Log out!</string>
 </resources>

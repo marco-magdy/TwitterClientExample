@@ -2,7 +2,7 @@ package com.example.simpletwitterclient.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.twitter.sdk.android.core.models.Tweet;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by thema on 1/3/2017.
@@ -35,8 +34,9 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ViewHolder v;
         if (convertView == null) {
             v = new ViewHolder();

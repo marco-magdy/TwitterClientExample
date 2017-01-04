@@ -144,9 +144,10 @@ public class FollowersListActivity extends AppCompatActivity {
                 App.debug("FollowersLostActivity:exception : " + exception);
 
                 if (App.isOnline()) {
-                    App.toast("You asked for too many requests, Please try again after 15 minutes");
+                    App.toast(getString(R.string.too_many_requests));
                 } else {
-                    App.toast("Network connection problem");
+                    App.toast(getString(R.string.connection_error));
+                    App.toast("ghgf");
                     getFollowersListOffline();
                 }
             }
@@ -188,7 +189,7 @@ public class FollowersListActivity extends AppCompatActivity {
 
         if (item.getItemId() < accounts.size()) {
             TwitterSession twitterSession = accounts.get(item.getItemId());
-            App.toast(twitterSession.getUserName() + " Selected");
+            App.toast(twitterSession.getUserName() + getString(R.string.selected));
             App.saveUserData(twitterSession);
             App.twitterSession = twitterSession;
             cursor = -1;
@@ -196,7 +197,7 @@ public class FollowersListActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             getFollowersListOnline();
         } else {
-            App.toast("Log out!");
+            App.toast(getString(R.string.log_out));
             App.logOut();
             Intent intent = new Intent(FollowersListActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

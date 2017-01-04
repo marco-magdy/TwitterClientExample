@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@color/white"
     android:orientation="horizontal"
 
     android:paddingBottom="10sp"
@@ -14,15 +14,18 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
+        <!---->
+        <!---->
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ivUserImg"
-            android:layout_width="60sp"
-            android:layout_height="60sp"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:paddingEnd="4sp"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"
+            android:paddingStart="4sp"
             app:riv_corner_radius="8dip"
-            android:layout_marginRight="5sp"
-            android:layout_marginEnd="5sp"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/grey_loading_image" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -30,10 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ivUserImg"
-            android:layout_alignLeft="@+id/ivUserImg"
-            android:layout_alignStart="@+id/ivUserImg"
-            android:layout_alignRight="@+id/ivUserImg"
             android:layout_alignEnd="@+id/ivUserImg"
+            android:layout_alignLeft="@+id/ivUserImg"
+            android:layout_alignRight="@+id/ivUserImg"
+            android:layout_alignStart="@+id/ivUserImg"
             android:layout_alignTop="@+id/ivUserImg"
             android:padding="15sp" />
     </RelativeLayout>
@@ -48,24 +51,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:textColor="@color/black"
+            android:layout_marginLeft="5sp"
+            android:layout_marginStart="5sp"
             android:gravity="start"
-            android:text="@string/full_name" />
+            android:text="@string/full_name"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tvHandle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:textColor="@color/black"
+            android:layout_marginLeft="5sp"
+            android:layout_marginStart="5sp"
             android:gravity="start"
-            android:text="@string/handle" />
+            android:text="@string/handle"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tvBio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
+            android:layout_marginLeft="5sp"
+            android:layout_marginStart="5sp"
             android:gravity="start"
             android:text="@string/bio" />
     </LinearLayout>

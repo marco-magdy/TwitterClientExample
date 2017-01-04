@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.simpletwitterclient.models.Followers;
 import com.google.gson.reflect.TypeToken;
 
 import com.example.simpletwitterclient.R;
@@ -16,7 +15,6 @@ import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -31,9 +29,11 @@ import static com.example.simpletwitterclient.commons.Constants.TWITTER_KEY;
 import static com.example.simpletwitterclient.commons.Constants.TWITTER_SECRET;
 
 /**
- * Created by thema on 1/3/2017.
+ * App is an application class that
+ * contains frequently used "complex objects"
+ *
+ * with "App" class, i can access the same complex object from any point of my application
  */
-
 public class App extends Application {
     public static App app;
     public static TwitterSession twitterSession;
@@ -53,10 +53,18 @@ public class App extends Application {
         setUpTheImageLoader();
     }
 
+    /**
+     * print something on logcat with title  "My Tag"
+     * @param message the message body that will appear in the logcat
+     * */
     public static void debug(String message) {
         Log.d("MY TAG", message);
     }
 
+    /**
+     * Show a toast message
+     * @param message the message body
+     * */
     public static void toast(String message) {
         Toast.makeText(app, message, Toast.LENGTH_SHORT).show();
     }
@@ -75,8 +83,7 @@ public class App extends Application {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("UserData", "");
         App.debug("Session json :" + json);
-        TwitterSession session = gson.fromJson(json, TwitterSession.class);
-        return session;
+        return gson.fromJson(json, TwitterSession.class);
     }
 
     public static void saveAccounts(ArrayList<TwitterSession> sessions) {
@@ -89,7 +96,7 @@ public class App extends Application {
     }
 
     public static ArrayList<TwitterSession> getAccounts() {
-        ArrayList<TwitterSession> sessions = null;
+        ArrayList<TwitterSession> sessions ;
         Gson gson = new Gson();
         String json = sharedPreferences.getString("UserAccounts", "");
         App.debug("Session json :" + json);
@@ -109,7 +116,7 @@ public class App extends Application {
     }
 
     public static ArrayList<User> getFollowersList() {
-        ArrayList<User> followers = null;
+        ArrayList<User> followers ;
         Gson gson = new Gson();
         String json = sharedPreferences.getString("FollowersList", "");
         App.debug("Session json :" + json);
@@ -132,8 +139,7 @@ public class App extends Application {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("FollowerData", "");
         App.debug("Follower json :" + json);
-        User user = gson.fromJson(json, User.class);
-        return user;
+        return gson.fromJson(json, User.class);
     }
 
     private void setUpTheImageLoader() {
@@ -153,12 +159,13 @@ public class App extends Application {
     }
 
     public static void logOut() {
-        // sharedPreferences.edit().clear().apply();
         App.saveUserData(null);
         App.twitterSession = null;
-
     }
 
+    /**
+     * Checks network availability
+     * */
     public static boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) app.getSystemService(Context.CONNECTIVITY_SERVICE);

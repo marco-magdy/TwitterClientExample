@@ -16,9 +16,10 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import java.util.ArrayList;
 
 /**
- * Created by thema on 1/3/2017.
+ * Login Screen:
+ * Contains a login button, when the user click this button
+ * , a web page is opened and ask the user to grant authentication for the application,
  */
-
 public class LoginActivity extends AppCompatActivity {
     private TwitterLoginButton loginButton;
 
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!App.isOnline()) {
-                    App.toast("Network connection problems!");
+                    App.toast(getString(R.string.connection_error));
                 }
             }
         });
@@ -71,7 +72,12 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void checkIfUserLoggedIn() {
+    /**
+     * This method checks if the user already logged in
+     * if true(if credentials already saved in the device settings),
+     * the login activity dismissed automatically and "FollowerListActivity" is opened
+     */
+    private void checkIfUserLoggedIn() {
         App.debug("checkIfUserLoggedIn" + App.twitterSession);
         if (App.twitterSession != null) {
             App.debug("User ID:" + App.twitterSession.getUserId() + "\n" + "User Name:" + App.twitterSession.getUserName());
@@ -92,12 +98,12 @@ public class LoginActivity extends AppCompatActivity {
         }
         //2.check if the user already saved in the shared preferences "Settings"
         if (!userExists(App.twitterSession.getUserName(), accounts)) {
-            //add the new account
+            //2.1 add the new account
             accounts.add(App.twitterSession);
-            //save accounts
+            //2.2 save accounts
             App.saveAccounts(accounts);
         } else {
-            App.toast("User Already saved!");
+            App.toast(getString(R.string.user_already_saved));
         }
     }
 

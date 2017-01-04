@@ -19,7 +19,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.twitter.sdk.android.core.models.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by thema on 1/3/2017.
@@ -74,6 +73,8 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.MyVi
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                 super.onLoadingFailed(imageUri, view, failReason);
+                holder.progressBar.setVisibility(View.VISIBLE);
+
             }
 
             @Override
@@ -117,8 +118,4 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.MyVi
 
     }
 
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
 }

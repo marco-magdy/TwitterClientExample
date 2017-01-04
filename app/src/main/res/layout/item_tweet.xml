@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@color/white"
     android:orientation="horizontal"
 
     android:paddingBottom="10sp"
@@ -17,8 +17,12 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ivUserImg"
-            android:layout_width="60sp"
-            android:layout_height="60sp"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:paddingEnd="4sp"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"
+            android:paddingStart="4sp"
             android:layout_marginRight="5sp"
             android:layout_marginEnd="5sp"
             app:riv_corner_radius="8dip"
@@ -31,7 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ivUserImg"
             android:layout_alignLeft="@+id/ivUserImg"
+            android:layout_alignStart="@+id/ivUserImg"
             android:layout_alignRight="@+id/ivUserImg"
+            android:layout_alignEnd="@+id/ivUserImg"
             android:layout_alignTop="@+id/ivUserImg"
             android:padding="15sp" />
     </RelativeLayout>
@@ -61,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
                 android:gravity="start"
                 android:text="@string/screen_name" />
         </LinearLayout>
