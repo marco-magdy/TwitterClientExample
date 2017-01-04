@@ -11,4 +11,7 @@
     <string name="too_many_requests">تجاوز عدد الطلبات المسموح به, حاول بعد 15 دقيقة</string>
     <string name="selected">اختيار</string>
     <string name="log_out">تسجيل الخروج</string>
+    <string name="txt_log_out">تسجيل الخروج</string>
+    <string name="followers">متابعي</string>
+
 </resources>

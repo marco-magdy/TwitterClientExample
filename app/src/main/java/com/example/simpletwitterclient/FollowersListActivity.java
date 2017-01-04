@@ -29,17 +29,19 @@ import java.util.List;
 import retrofit2.Call;
 
 /**
- * Created by thema on 1/3/2017.
+ * FollowerList Activity ..
+ * contains a list of user followers ,pull to refresh
+ * and endless scroll view for loading more users
  */
 
 public class FollowersListActivity extends AppCompatActivity {
 
-    private ArrayList<User> userList = new ArrayList<>();
-    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeContainer;
     private ProgressBar progressBar;
+    private RecyclerView recyclerView;
     private FollowersAdapter adapter;
 
+    private ArrayList<User> userList = new ArrayList<>();
 
     /**
      * cursor Causes the results to be broken into pages.
@@ -59,6 +61,8 @@ public class FollowersListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers_list);
 
+        getSupportActionBar().setTitle(App.twitterSession.getUserName()+getString(R.string.followers));
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -69,6 +73,7 @@ public class FollowersListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new SpacesItemDecoration(FollowersListActivity.this));
+        //onScrollListener for loading more items on scroll down
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -78,7 +83,11 @@ public class FollowersListActivity extends AppCompatActivity {
                     visibleItemCount = linearLayoutManager.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
                     pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
-                    if (cursor != 0) {//if cursor==0 that means that you already fetched all data
+                    /*
+                    * if cursor==0 that means that you already fetched all data
+                    * reference: https://dev.twitter.com/overview/api/cursoring
+                    * */
+                    if (cursor != 0) {
                         if (loading) {
                             if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                                 loading = false;
@@ -124,15 +133,16 @@ public class FollowersListActivity extends AppCompatActivity {
                 if (cursor == -1) {//first time "userList is empty"
                     userList = new ArrayList<>(result.data.users);
                     adapter = new FollowersAdapter(FollowersListActivity.this, userList);
-                    clearOfflineUsers();
                     recyclerView.setAdapter(adapter);
+                    clearOfflineUsers();
                 } else {//add the new items to already existing ones
                     adapter.addItems(new ArrayList<>(result.data.users));
-
                 }
+                //set nextCursor value to cursor for the next page request
                 cursor = result.data.nextCursor;
                 saveOfflineUsers(result.data.users);
 
+                //assign true to loading to enable scrolling down
                 loading = true;
             }
 
@@ -147,7 +157,6 @@ public class FollowersListActivity extends AppCompatActivity {
                     App.toast(getString(R.string.too_many_requests));
                 } else {
                     App.toast(getString(R.string.connection_error));
-                    App.toast("ghgf");
                     getFollowersListOffline();
                 }
             }
@@ -155,6 +164,11 @@ public class FollowersListActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * save the list of followers for offline use
+     *
+     * @param users a list of users
+     */
     private void saveOfflineUsers(List<User> users) {
         List<User> mUsers = App.getFollowersList();
         if (mUsers == null) {
@@ -164,6 +178,9 @@ public class FollowersListActivity extends AppCompatActivity {
         App.saveFollowersList(new ArrayList<>(mUsers));
     }
 
+    /**
+     * clear offline users data when there is a valid connection
+     * */
     private void clearOfflineUsers() {
         App.saveFollowersList(null);
     }
@@ -171,22 +188,41 @@ public class FollowersListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /*
-        * get saved Accounts
+        * get saved Accounts "for multiple users" from shared preferences
         * */
         ArrayList<TwitterSession> accounts = App.getAccounts();
         int accountsSize = accounts.size();
         App.debug("Number of accounts: " + accountsSize);
+
+        //Add accounts to the overflow menu
         for (int i = 0; i < accountsSize; i++) {
             menu.add(0, i, i, "@" + accounts.get(i).getUserName());
         }
-        menu.add(1, accountsSize + 1, accountsSize + 1, "Log out");
+
+        //the last item of the menu would be "Log Out"
+        menu.add(1, accountsSize + 1, accountsSize + 1, R.string.txt_log_out);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        /**
+         * get all user accounts from shared preferences
+         * */
         ArrayList<TwitterSession> accounts = App.getAccounts();
 
+        /**
+         * get selected user account and save it as the "current account"
+         * to use it further in authentication operations ,etc...
+         *
+         * we have to assign -1 to cursor,cursor is a param in "user followers list" API
+         * a value of -1 indicates requesting the first page.
+         * reference: https://dev.twitter.com/overview/api/cursoring
+         *
+         * we have also to assign null to the adapter to clear its data
+         *
+         * finally we are ready to call the followers list API
+         * */
         if (item.getItemId() < accounts.size()) {
             TwitterSession twitterSession = accounts.get(item.getItemId());
             App.toast(twitterSession.getUserName() + getString(R.string.selected));
@@ -209,6 +245,10 @@ public class FollowersListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * this method gets all followers that already saved in the shared preferences
+     * and display their data when the network is unavailable
+     */
     private void getFollowersListOffline() {
 
         ArrayList<User> userArrayList = App.getFollowersList();

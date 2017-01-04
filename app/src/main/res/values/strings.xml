@@ -11,4 +11,6 @@
     <string name="too_many_requests">You asked for too many requests, Please try again after 15 minutes</string>
     <string name="selected">" Selected"</string>
     <string name="log_out">Log out!</string>
+    <string name="txt_log_out">Log out</string>
+    <string name="followers">\'s Followers</string>
 </resources>

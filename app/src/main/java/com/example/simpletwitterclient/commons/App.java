@@ -31,7 +31,7 @@ import static com.example.simpletwitterclient.commons.Constants.TWITTER_SECRET;
 /**
  * App is an application class that
  * contains frequently used "complex objects"
- *
+ * <p>
  * with "App" class, i can access the same complex object from any point of my application
  */
 public class App extends Application {
@@ -55,21 +55,28 @@ public class App extends Application {
 
     /**
      * print something on logcat with title  "My Tag"
+     *
      * @param message the message body that will appear in the logcat
-     * */
+     */
     public static void debug(String message) {
         Log.d("MY TAG", message);
     }
 
     /**
      * Show a toast message
+     *
      * @param message the message body
-     * */
+     */
     public static void toast(String message) {
         Toast.makeText(app, message, Toast.LENGTH_SHORT).show();
     }
 
+//
 
+    /**
+     * save the current session of the user in the shared preferences
+     * to use it in credentials stuff
+     */
     public static void saveUserData(TwitterSession session) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -79,6 +86,10 @@ public class App extends Application {
         editor.apply();
     }
 
+    /**
+     * get the current session of the user from the shared preferences
+     * to use it in credentials stuff
+     */
     private static TwitterSession getUserData() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("UserData", "");
@@ -86,6 +97,12 @@ public class App extends Application {
         return gson.fromJson(json, TwitterSession.class);
     }
 
+    /**
+     * save (user accounts) in the shared preferences
+     * so that the user can switch between multiple accounts
+     *
+     *@param sessions an array list of Twitter Sessions
+     */
     public static void saveAccounts(ArrayList<TwitterSession> sessions) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -95,8 +112,12 @@ public class App extends Application {
         editor.apply();
     }
 
+    /**
+     * get (user accounts) from the shared preferences
+     * so that the user can switch between multiple accounts
+     */
     public static ArrayList<TwitterSession> getAccounts() {
-        ArrayList<TwitterSession> sessions ;
+        ArrayList<TwitterSession> sessions;
         Gson gson = new Gson();
         String json = sharedPreferences.getString("UserAccounts", "");
         App.debug("Session json :" + json);
@@ -106,6 +127,12 @@ public class App extends Application {
         return sessions;
     }
 
+    /**
+     * save the followers of the user in the shared preferences
+     * to enable the user view his followers when the connection is unavailable
+     *
+     * @param followers an array list of Twitter users
+     */
     public static void saveFollowersList(ArrayList<User> followers) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -115,8 +142,11 @@ public class App extends Application {
         editor.apply();
     }
 
+    /**
+     * get the followers of the user
+     */
     public static ArrayList<User> getFollowersList() {
-        ArrayList<User> followers ;
+        ArrayList<User> followers;
         Gson gson = new Gson();
         String json = sharedPreferences.getString("FollowersList", "");
         App.debug("Session json :" + json);
@@ -126,6 +156,10 @@ public class App extends Application {
         return followers;
     }
 
+    /**
+     * save follower data for requesting his info from the API
+     * @param user Twitter user
+     */
     public static void saveFollowerData(User user) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -135,6 +169,9 @@ public class App extends Application {
         editor.apply();
     }
 
+    /**
+     * get follower data for requesting his info from the API
+     */
     public static User getFollowerData() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("FollowerData", "");
@@ -142,6 +179,9 @@ public class App extends Application {
         return gson.fromJson(json, User.class);
     }
 
+    /**
+     * setup universal image loader
+     */
     private void setUpTheImageLoader() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(false)
@@ -165,7 +205,7 @@ public class App extends Application {
 
     /**
      * Checks network availability
-     * */
+     */
     public static boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) app.getSystemService(Context.CONNECTIVITY_SERVICE);

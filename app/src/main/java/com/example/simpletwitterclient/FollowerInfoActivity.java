@@ -55,7 +55,6 @@ public class FollowerInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follower_info);
 
-
         listView = (ListView) findViewById(R.id.listView);
         relativeSticky = (RelativeLayout) findViewById(R.id.relativeSticky);
         stickyView = (TextView) findViewById(R.id.stickyView);
@@ -63,32 +62,39 @@ public class FollowerInfoActivity extends AppCompatActivity {
         ivBanner = (ImageView) findViewById(R.id.ivBanner);
         ivUserImage = (ImageView) findViewById(R.id.ivUserImage);
 
+        adapter = new TweetsAdapter(FollowerInfoActivity.this, 0);
 
-        App.debug("Banner Url: " + App.getFollowerData().profileBannerUrl);
+        //loading profile image from url into ivUserImage
+        App.imageLoader.displayImage(App.getFollowerData().profileImageUrl, ivUserImage, new SimpleImageLoadingListener());
+        //loading profile banner from url into ivBanner
+        //if the banner is "not null" load the url into its ImageView
+        //otherwise load our default image
         if (App.getFollowerData().profileBannerUrl != null) {
             App.imageLoader.displayImage(App.getFollowerData().profileBannerUrl, ivBanner, new SimpleImageLoadingListener());
         } else {
             ivBanner.setBackground(ContextCompat.getDrawable(this, R.drawable.default_bg));
         }
-        App.imageLoader.displayImage(App.getFollowerData().profileImageUrl, ivUserImage, new SimpleImageLoadingListener());
-        /* Inflate list header layout */
+
+
+        //to make a sticky header:
+        // 1. we firstly create a header for the list view
+        // 1.1 Inflate list header layout
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View listHeader = inflater.inflate(R.layout.activity_follower_info_header, null);
         stickyViewSpacer = listHeader.findViewById(R.id.stickyViewPlaceholder);
-
+        //2.set user name in stickyView text
         stickyView.setText(App.getFollowerData().name);
-        stickyView.setTextColor(Color.parseColor("#" + App.getFollowerData().profileTextColor));
-        stickyView.setBackgroundColor(Color.parseColor("#" + App.getFollowerData().profileBackgroundColor));
+        //stickyView.setTextColor(Color.parseColor("#" + App.getFollowerData().profileTextColor));
+        //stickyView.setBackgroundColor(Color.parseColor("#" + App.getFollowerData().profileBackgroundColor));
 
-        adapter = new TweetsAdapter(FollowerInfoActivity.this, 0);
 
-        /* Add list view header */
+        //3.add this header to the listView
         listView.addHeaderView(listHeader);
 
-
-          /* Handle list View scroll events */
+        //4. Handle list View scroll events
+        //such that ,when the user scroll up , the height of the header shrinks
+        //and when the user scroll down, the height of the header expands
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
             }

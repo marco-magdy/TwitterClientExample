@@ -50,9 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 App.saveUserData(session);
 
                 saveAccountInMultiUserAccounts();
-
                 checkIfUserLoggedIn();
-
             }
 
             @Override
@@ -72,30 +70,19 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * This method checks if the user already logged in
-     * if true(if credentials already saved in the device settings),
-     * the login activity dismissed automatically and "FollowerListActivity" is opened
-     */
-    private void checkIfUserLoggedIn() {
-        App.debug("checkIfUserLoggedIn" + App.twitterSession);
-        if (App.twitterSession != null) {
-            App.debug("User ID:" + App.twitterSession.getUserId() + "\n" + "User Name:" + App.twitterSession.getUserName());
-            startActivity(new Intent(this, FollowersListActivity.class));
-            finish();
-        }
-    }
-
     /***
-     * Multiple User Accounts
+     * Multiple User Accounts:
+     * this method saves the login account and
+     * adding this account to the list of accounts
+     * so that the user can switch between his accounts later
      */
     private void saveAccountInMultiUserAccounts() {
         //1. get all saved accounts
         ArrayList<TwitterSession> accounts = App.getAccounts();
-        App.debug("Accounts : " + accounts);
         if (accounts == null) {
             accounts = new ArrayList<>();
         }
+        App.debug("Number of saved accounts : " + accounts.size());
         //2.check if the user already saved in the shared preferences "Settings"
         if (!userExists(App.twitterSession.getUserName(), accounts)) {
             //2.1 add the new account
@@ -107,9 +94,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /*
-     *this method checks if the user already saved in the shared preferences
-     */
+
+    /**
+     * this method checks if the user already saved in the shared preferences
+     * @param userName
+     * @param accounts
+     * */
     private boolean userExists(String userName, ArrayList<TwitterSession> accounts) {
         for (TwitterSession account : accounts) {
             if (account.getUserName().contains(userName)) {
@@ -117,5 +107,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    /**
+     * This method checks if the user already logged in
+     * if true(if credentials already saved in the device settings),
+     * the login activity dismissed automatically and "FollowerListActivity" is opened
+     */
+    private void checkIfUserLoggedIn() {
+        App.debug("checkIfUserLoggedIn" + App.twitterSession);
+        if (App.twitterSession != null) {
+            App.debug("User ID:" + App.twitterSession.getUserId() + "\n" + "User Name:" + App.twitterSession.getUserName());
+            startActivity(new Intent(this, SplashActivity.class));
+            finish();
+        }
     }
 }
