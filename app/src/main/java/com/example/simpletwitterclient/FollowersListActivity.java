@@ -60,8 +60,8 @@ public class FollowersListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers_list);
-
-        getSupportActionBar().setTitle(App.twitterSession.getUserName()+getString(R.string.followers));
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(App.twitterSession.getUserName() + getString(R.string.followers));
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -113,6 +113,19 @@ public class FollowersListActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * in this method we call twitter API "/1.1/followers/list.json" to get the followers list using Retrofit 2.0
+     * <p>
+     * Retrofit is a REST Client for Android and Java by Square.
+     * It makes it relatively easy to retrieve and upload JSON (or other structured data)
+     * via a REST based webservice.
+     * <p>
+     * Note: Twitter Kit uses Retrofit to convert interfaces into authenticated representations of our endpoints.
+     * Any additional endpoints added through the extensible example need to adhere to the format required by Retrofit.
+     * Reference: https://docs.fabric.io/android/twitter/access-rest-api.html
+     * <p>
+     * *
+     */
     public void getFollowersListOnline() {
 
         Call<Followers> client
@@ -166,6 +179,12 @@ public class FollowersListActivity extends AppCompatActivity {
 
     /**
      * save the list of followers for offline use
+     * <p>
+     * Note: we can also save the followers list using
+     * light weight Database Management System such like:
+     * (SQLite, OrmLite, SugarORM, etc...) with DAO design pattern or something
+     * but "in this example" shared preferences is much more simple, straight forward
+     * and doesn't need a lot of code
      *
      * @param users a list of users
      */
@@ -180,7 +199,7 @@ public class FollowersListActivity extends AppCompatActivity {
 
     /**
      * clear offline users data when there is a valid connection
-     * */
+     */
     private void clearOfflineUsers() {
         App.saveFollowersList(null);
     }
@@ -228,6 +247,8 @@ public class FollowersListActivity extends AppCompatActivity {
             App.toast(twitterSession.getUserName() + getString(R.string.selected));
             App.saveUserData(twitterSession);
             App.twitterSession = twitterSession;
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle(App.twitterSession.getUserName() + getString(R.string.followers));
             cursor = -1;
             adapter = null;
             progressBar.setVisibility(View.VISIBLE);

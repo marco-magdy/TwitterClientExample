@@ -1,7 +1,7 @@
 package com.example.simpletwitterclient.commons;
 
 /**
- * Created by thema on 1/3/2017.
+ * Constants class
  */
 
 public class Constants {

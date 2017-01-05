@@ -17,16 +17,14 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.twitter.sdk.android.core.models.Tweet;
 
-import java.util.ArrayList;
-
 /**
- * Created by thema on 1/3/2017.
+ * TweetsAdapter:
+ * Adapter for the follower tweets
  */
 
 public class TweetsAdapter extends ArrayAdapter<Tweet> {
 
     private Context context;
-    private ArrayList<Tweet> items;
 
 
     public TweetsAdapter(Context context, int resource) {
@@ -40,7 +38,7 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
         final ViewHolder v;
         if (convertView == null) {
             v = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_tweet, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_tweet, parent, false);
             v.ivUserImg = (ImageView) convertView.findViewById(R.id.ivUserImg);
             v.tvFullName = (TextView) convertView.findViewById(R.id.tvFullName);
             v.tvScreenName = (TextView) convertView.findViewById(R.id.tvScreenName);

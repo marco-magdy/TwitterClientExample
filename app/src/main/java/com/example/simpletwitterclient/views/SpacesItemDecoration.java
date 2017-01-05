@@ -11,7 +11,8 @@ import com.example.simpletwitterclient.R;
 
 
 /**
- * Created by thema on 1/3/2017.
+ * SpacesItemDecoration
+ * is a view used to separate RecyclerView items with a divider
  */
 
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {

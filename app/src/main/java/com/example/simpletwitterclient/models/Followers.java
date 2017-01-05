@@ -6,7 +6,7 @@ import com.twitter.sdk.android.core.models.User;
 import java.util.List;
 
 /**
- * Created by thema on 1/3/2017.
+ * Followers
  */
 
 public class Followers{

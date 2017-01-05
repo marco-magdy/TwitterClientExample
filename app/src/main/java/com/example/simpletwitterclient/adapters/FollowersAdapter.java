@@ -21,7 +21,8 @@ import com.twitter.sdk.android.core.models.User;
 import java.util.ArrayList;
 
 /**
- * Created by thema on 1/3/2017.
+ * FollowersAdapter
+ * adapter for the users followers
  */
 
 public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.MyViewHolder> {
@@ -109,9 +110,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.MyVi
     }
 
     public void addItems(ArrayList<User> newUsers) {
-        int startCount = userList.size();
         userList.addAll(newUsers);
-        //notifyItemInserted(startCount);
 
         notifyItemRangeChanged(0, userList.size());
 

@@ -97,8 +97,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * this method checks if the user already saved in the shared preferences
-     * @param userName
-     * @param accounts
+     * @param userName user name of the user that have jost logged in
+     * @param accounts the previously saved accounts
      * */
     private boolean userExists(String userName, ArrayList<TwitterSession> accounts) {
         for (TwitterSession account : accounts) {

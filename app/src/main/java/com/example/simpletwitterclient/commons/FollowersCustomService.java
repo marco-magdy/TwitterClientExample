@@ -8,7 +8,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * Created by thema on 1/2/2017.
+ * FollowersCustomService
+ * Custom Interface for getting users followers
  */
 
 public interface FollowersCustomService {

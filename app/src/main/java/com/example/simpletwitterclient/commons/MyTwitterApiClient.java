@@ -5,7 +5,8 @@ import com.twitter.sdk.android.core.TwitterSession;
 
 
 /**
- * Created by thema on 1/1/2017.
+ * MyTwitterApiClient
+ * Custom TwitterApiClient for getting users followers
  */
 
 public class MyTwitterApiClient extends TwitterApiClient {
