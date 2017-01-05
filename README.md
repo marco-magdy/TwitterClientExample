@@ -22,7 +22,7 @@ Contains a login button, when the user click this button a web page is opened an
 
 <img src="https://cloud.githubusercontent.com/assets/3523226/21662724/32ce7dd2-d2e4-11e6-8c25-b38fb18e8e8e.png" width="300">
 
-##3.Follower List screen
+##3.Followers List screen
 Contains a list of user followers ,pull to refresh and endless scroll view for loading more users.
 
 If the network unavailable, then the list displays the already cached data.
